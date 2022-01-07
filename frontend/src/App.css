@@ -2,7 +2,13 @@
   height: 100%;
 }
 
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Spartan:wght@700&display=swap');
 
+* {
+  font-family: 'Rubik', sans-serif;
+  font-family: 'Spartan', sans-serif;
+}
 
 /* Custom Bootstrap */
 .btn-purple {
@@ -12,4 +18,8 @@
 
 .btn-purple:hover {
   filter: brightness(92%);
+}
+
+.text-light-purple {
+  color: hsl(244, 45%, 87%);
 }
