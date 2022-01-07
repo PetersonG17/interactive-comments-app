@@ -1,5 +1,6 @@
 .App {
   height: 100%;
+  background-color: hsl(228, 33%, 97%);
 }
 
 /* Google Font */
@@ -11,6 +12,7 @@
 }
 
 /* Custom Bootstrap */
+/* Buttons */
 .btn-purple {
   background-color: hsl(238, 40%, 52%) !important;
   color: white !important;
@@ -20,6 +22,12 @@
   filter: brightness(92%);
 }
 
+/* Text Colors */
 .text-light-purple {
   color: hsl(244, 45%, 87%);
+}
+
+/* Background Colors */
+.bg-soft {
+  background-color: hsl(240, 33%, 97%);
 }
