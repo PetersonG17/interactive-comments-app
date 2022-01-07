@@ -1,0 +1,31 @@
+# Backend
+backend/node_modules
+backend/public/hot
+backend/public/storage
+backend/storage/*.key
+backend/vendor
+backend/.env
+backend/.env.backup
+backend/.phpunit.result.cache
+backend/Homestead.json
+backend/Homestead.yaml
+backend/npm-debug.log
+backend/yarn-error.log
+
+# Frontend
+
+frontend/logs
+frontend/*.log
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/build/Release
+frontend/node_modules/
+frontend/jspm_packages/
+frontend/dist/
+frontend/typings/
+frontend/.npm
+frontend/.eslintcache
+frontend/.node_repl_history
+frontend/*.tgz
+frontend/.yarn-integrity
