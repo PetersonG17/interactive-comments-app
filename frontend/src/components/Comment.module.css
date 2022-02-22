@@ -1,0 +1,37 @@
+.comment-box {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight:700;
+    display: flex;
+    justify-content: center;
+    align-items: middle;
+}
+
+.votes-box {
+    background-color: rgb(245, 246, 250);
+    border-radius: 10px;
+    padding: 10px;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    color: rgb(79, 76, 140);
+    align-items: center;
+    align-content: space-between;
+    max-height: 95px;
+}
+
+.comment-info {
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+}
+
+.comment-text {
+    font-weight: 100;
+}
+
+.profile-pic {
+    width: 35px;
+    height: 35px;
+}

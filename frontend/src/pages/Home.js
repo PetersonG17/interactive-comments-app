@@ -1,7 +1,10 @@
+
+import Comment from '../components/Comment';
+
 function Home() {
     return (
-        <div>
-            Home!
+        <div className="container pt-3">
+            <Comment/>
         </div>
     );
 }
