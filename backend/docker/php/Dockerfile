@@ -1,5 +1,4 @@
-# Using the php 8.0 fpm base image
-FROM php:8.0-fpm
+FROM php:8.1-fpm
 
 # Update the apt-get
 RUN apt-get update && apt-get install -y \
@@ -13,21 +12,18 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     g++
 
-
 # install php extensions
 RUN docker-php-ext-install pdo pdo_mysql pcntl intl zip
 
 # Install composer
-RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # Default working directory
 WORKDIR /var/www/app/
 
 # Copy the source code
-COPY ./backend .
+COPY ./backend/src .
 
-# Copy the dependancies for composer and install
-COPY ./backend/composer*.json .
 RUN composer install
 
 # Default command when server starts
