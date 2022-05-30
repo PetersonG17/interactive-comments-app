@@ -1,4 +1,6 @@
 <?php
 
+use App\Comment\Api\Actions\GetCommmentAction;
+
 // Define the routes in the app
-dd("Here!");
+$app->get('/comments', GetCommmentAction::class);
