@@ -7,6 +7,9 @@
         "zeuxisoo/slim-whoops": "^0.7.3"
     },
     "autoload": {
-        "files": ["ConfigLoader.php"]
+        "files": ["ConfigLoader.php"],
+        "psr-4": {
+            "App\\": "app/"
+        }
     }
 }
