@@ -3,7 +3,8 @@
         "slim/slim": "4.*",
         "guzzlehttp/psr7": "^2",
         "larapack/dd": "^1.1",
-        "monolog/monolog": "^3.0"
+        "monolog/monolog": "^3.0",
+        "zeuxisoo/slim-whoops": "^0.7.3"
     },
     "autoload": {
         "files": ["ConfigLoader.php"]
