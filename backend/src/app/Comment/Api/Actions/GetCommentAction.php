@@ -9,6 +9,6 @@ class GetCommentAction
 {
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
-        dd("Here! Comment");
+        
     }
 }
