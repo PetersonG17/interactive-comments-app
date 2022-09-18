@@ -1,6 +1,7 @@
 <?php
 
 // This file defines defintions for the Dependancy Injection
+
 use Illuminate\Database\Capsule\Manager as Capsule;
 use App\User\Domain\UserRepository;
 use App\User\Infrastructure\UserDatabaseRepository;
@@ -18,8 +19,9 @@ $capsule->addConnection(
         'password' => $config['password'],
     ]
 );
+$capsule->setAsGlobal();
 
 return [
     Capsule::class => $capsule,
-    UserRepository::class => new UserDatabaseRepository($capsule)
+    UserRepository::class => new UserDatabaseRepository($capsule),
 ];

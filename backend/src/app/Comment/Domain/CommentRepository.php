@@ -7,4 +7,6 @@ interface CommentRepository
     public function find(int $id): Comment;
 
     public function save(Comment $comment): void;
+
+    public function nextId(): int;
 }
