@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS "user" (
+   user_id      SERIAL PRIMARY KEY,
+   first_name   VARCHAR(30) NOT NULL,
+   last_name    VARCHAR(30) NOT NULL,
+   created_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

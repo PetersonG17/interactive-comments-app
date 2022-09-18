@@ -76,6 +76,11 @@ services:
         image: php
         container_name: php
         tty: true
+        environment:
+            FLYWAY_USER: ${DATABASE_USER}
+            FLYWAY_PASSWORD: ${DATABASE_PASSWORD}
+            FLYWAY_URL: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}
+            FLYWAY_LOCATIONS: filesystem:/flyway/sql
         env_file:
             - .env
         working_dir: /var/www/app
