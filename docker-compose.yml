@@ -9,9 +9,9 @@ volumes:
 
 services:
 
-    interactive-comments-app-react:
+    react:
         stdin_open: true
-        container_name: interactive-comments-app-react
+        container_name: react
         command: "sh entrypoint.sh"
         build:
             context: .
@@ -25,24 +25,37 @@ services:
         networks:
             - network
 
-    interactive-comments-app-nginx:
+    nginx:
         image: nginx:stable-alpine
-        container_name: interactive-comments-app-nginx
+        container_name: nginx
         ports:
             - "8080:80"
         volumes:
             - ./backend/src/public:/var/www/app/public
             - ./backend/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
         depends_on:
-            - interactive-comments-app-php
-            - interactive-comments-app-postgres
+            - php
+            - postgres
         networks:
             - network
+    
+    # Used for DB migrations
+    # flyway:
+    #     image: flyway/flyway:9.3.0-alpine
+    #     container_name: flyway
+    #     command: tail -f /dev/null
+    #     environment:
+    #         FLYWAY_USER: ${DATABASE_USER}
+    #         FLYWAY_PASSWORD: ${DATABASE_PASSWORD}
+    #         FLYWAY_URL: jbdc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}
+    #     volumes:
+    #         - ./database/migrations/sql:/flyway/sql
+    #     depends_on:
+    #         - postgres
 
-    interactive-comments-app-postgres:
+    postgres:
         image: postgres:14.3-alpine
-        container_name: interactive-comments-app-postgres
-        restart: always
+        container_name: postgres
         tty: true
         ports:
             - 5432:5432
@@ -56,18 +69,21 @@ services:
         cap_add:
             - SYS_NICE  # CAP_SYS_NICE
 
-    interactive-comments-app-php:
+    php:
         build:
             context: .
             dockerfile: ./backend/docker/php/Dockerfile
-        image: interactive-comments-app-php
-        container_name: interactive-comments-app-php
+        image: php
+        container_name: php
         tty: true
+        env_file:
+            - .env
         working_dir: /var/www/app
         depends_on:
-            - interactive-comments-app-postgres
+            - postgres
         volumes:
             - ./backend/src:/var/www/app
+            - ./database/migrations/sql:/flyway/sql
         expose:
             - 9000
         networks:

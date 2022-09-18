@@ -5,7 +5,9 @@
         "larapack/dd": "^1.1",
         "monolog/monolog": "^3.0",
         "zeuxisoo/slim-whoops": "^0.7.3",
-        "illuminate/database": "^9.15"
+        "illuminate/database": "^9.15",
+        "php-di/php-di": "^6.4",
+        "illuminate/filesystem": "^9.26"
     },
     "autoload": {
         "files": ["ConfigLoader.php"],
