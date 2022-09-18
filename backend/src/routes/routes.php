@@ -1,6 +1,6 @@
 <?php
 
-use App\Author\Api\Actions\GetAuthorsAction;
+use App\User\Api\Actions\GetUsersAction;
 use App\Comment\Api\Actions\GetCommentsAction;
 use GuzzleHttp\Psr7\Response;
 
@@ -10,4 +10,4 @@ $app->get('/', function ($request, $response, array $args) {
 });
 
 $app->get('/comments', GetCommentsAction::class);
-$app->get('/authors', GetAuthorsAction::class);
+$app->get('/authors', GetUsersAction::class);

@@ -2,21 +2,21 @@
 
 namespace App\Comment\Domain\Values;
 
-use App\Author\Domain\Author;
+use App\User\Domain\User;
 use DateTimeInterface;
 
 class Like
 {
-    private Author $author;
+    private User $author;
     private DateTimeInterface $timestamp;
 
-    public function __construct(Author $author, DateTimeInterface $timestamp)
+    public function __construct(User $author, DateTimeInterface $timestamp)
     {
         $this->author = $author;
         $this->timestamp = $timestamp;
     }
 
-    public function author(): Author
+    public function author(): User
     {
         return $this->author;
     }

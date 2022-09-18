@@ -2,23 +2,24 @@
 
 // This file defines defintions for the Dependancy Injection
 use Illuminate\Database\Capsule\Manager as Capsule;
-use App\Author\Domain\AuthorRepository;
-use App\Author\Infrastructure\AuthorDatabaseRepository;
+use App\User\Domain\UserRepository;
+use App\User\Infrastructure\UserDatabaseRepository;
 
 $capsule = new Capsule();
-// TODO: Load this from config file
+$config = include 'database.php';
+$config = $config['databases']['postgres'];
 $capsule->addConnection(
     [
         'driver' => 'pgsql',
-        'host' => 'postgres',
-        'database' => 'interactive_comments',
-        'port' => '5432',
-        'username' => 'postgres',
-        'password' => 'secret',
+        'host' => $config['host'],
+        'database' => $config['database'],
+        'port' => $config['port'],
+        'username' => $config['username'],
+        'password' => $config['password'],
     ]
 );
 
 return [
     Capsule::class => $capsule,
-    AuthorRepository::class => new AuthorDatabaseRepository($capsule)
+    UserRepository::class => new UserDatabaseRepository($capsule)
 ];

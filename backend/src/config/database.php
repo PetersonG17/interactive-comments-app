@@ -4,11 +4,11 @@
 return  [
     'databases' => [
         'postgres' => [
-            'db_password' => 'password',
-            'db_username' => 'postgres',
-            'db_database' => 'postgres',
-            'db_host' => 'interactive-comments-app-postgres',
-            'db_port' => 5432,
+            'password' => getenv('DATABASE_PASSWORD'),
+            'username' => getenv('DATABASE_USER'),
+            'database' => getenv('DATABASE_DB'),
+            'host' => getenv('DATABASE_HOST'),
+            'port' => getenv('DATABASE_PORT'),
         ]
     ]
 ];

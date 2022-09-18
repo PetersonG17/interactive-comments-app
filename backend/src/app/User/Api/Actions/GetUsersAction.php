@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Author\Api\Actions;
+namespace App\User\Api\Actions;
 
-use App\Author\Domain\AuthorRepository;
+use App\User\Domain\UserRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class GetAuthorsAction
+class GetUsersAction
 {
-    private AuthorRepository $repo;
+    private UserRepository $repo;
 
-    public function __construct(AuthorRepository $repo)
+    public function __construct(UserRepository $repo)
     {
         $this->repo = $repo;
     }

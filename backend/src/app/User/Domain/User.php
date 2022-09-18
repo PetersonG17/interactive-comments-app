@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Author\Domain;
+namespace App\User\Domain;
 
-class Author
+class User
 {
     private int $id;
     private string $firstName;
