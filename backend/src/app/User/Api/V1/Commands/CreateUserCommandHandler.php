@@ -1,6 +1,6 @@
 <?php
 
-namespace App\User\Api\Commands;
+namespace App\User\Api\V1\Commands;
 
 use App\User\Domain\User;
 use App\User\Domain\UserRepository;

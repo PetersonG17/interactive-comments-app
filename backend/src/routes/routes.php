@@ -1,7 +1,9 @@
 <?php
 
-use App\Comment\Api\Actions\GetCommentsAction;
-use App\User\Api\Actions\PostUserAction;
+use Slim\Routing\RouteCollectorProxy;
+use App\Comment\Api\V1\Actions\GetCommentsAction;
+use App\User\Api\V1\Actions\GetUserAction;
+use App\User\Api\V1\Actions\PostUserAction;
 use GuzzleHttp\Psr7\Response;
 
 // Define the routes in the app
@@ -9,8 +11,14 @@ $app->get('/', function ($request, $response, array $args) {
     return new Response(200, [], "You made it");
 });
 
-// Comments
-$app->get('/comments', GetCommentsAction::class);
+// V1 Routes
+$app->group('/api/v1', function (RouteCollectorProxy $group) {
 
-// Users
-$app->post('/users', PostUserAction::class);
+    // Comments
+    $group->get('/comments', GetCommentsAction::class);
+
+    // Users
+    $group->post('/users', PostUserAction::class);
+    $group->get('/users/{id}', GetUserAction::class);
+
+});

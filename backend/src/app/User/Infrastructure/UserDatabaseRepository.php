@@ -24,14 +24,20 @@ class UserDatabaseRepository implements UserRepository
 
     public function save(User $user): void
     {
-        // TODO: Implement this....
-        return;
+        $this->database::table(self::TABLE_NAME)
+            ->insert(
+                [
+                    "user_id" => $user->id(),
+                    "first_name" => $user->firstName(),
+                    "last_name" => $user->lastName()
+                ]
+            );
     }
 
     public function nextId(): int
     {
         $result = $this->database::select("SELECT nextval('user_user_id_seq')");
-        
+
         return $result[0]->nextval;
     }
 }

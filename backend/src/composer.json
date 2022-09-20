@@ -7,7 +7,8 @@
         "zeuxisoo/slim-whoops": "^0.7.3",
         "illuminate/database": "^9.15",
         "php-di/php-di": "^6.4",
-        "illuminate/filesystem": "^9.26"
+        "illuminate/filesystem": "^9.26",
+        "nesbot/carbon": "^2.62"
     },
     "autoload": {
         "files": ["ConfigLoader.php"],

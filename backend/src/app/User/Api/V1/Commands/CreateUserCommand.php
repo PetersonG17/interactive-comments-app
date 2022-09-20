@@ -1,6 +1,6 @@
 <?php
 
-namespace App\User\Api\Commands;
+namespace App\User\Api\V1\Commands;
 
 class CreateUserCommand
 {
