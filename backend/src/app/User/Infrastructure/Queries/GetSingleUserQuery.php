@@ -2,6 +2,7 @@
 
 namespace App\User\Infrastructure\Queries;
 
+use App\Shared\Infrastructure\Exceptions\NotFoundException;
 use Carbon\Carbon;
 use App\User\Infrastructure\DTO\UserDTO;
 use Illuminate\Database\Capsule\Manager as Capsule;
@@ -21,6 +22,10 @@ class GetSingleUserQuery
             ->select('*')
             ->where('user_id', $id)
             ->get();
+
+        if($result->isEmpty()) {
+            throw new NotFoundException("User with ID: $id was not found");
+        }
 
         return new UserDTO(
             $result[0]->user_id,

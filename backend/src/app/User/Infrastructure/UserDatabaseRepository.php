@@ -19,7 +19,17 @@ class UserDatabaseRepository implements UserRepository
 
     public function find(int $id): User
     {
-        return new User(1, "test", "test");
+        // TODO: Validation
+        $result = $this->database::table('user')
+            ->select('*')
+            ->where('user_id', $id)
+            ->get();
+
+        return new User(
+            $result[0]->user_id,
+            $result[0]->first_name,
+            $result[0]->last_name,
+        );
     }
 
     public function save(User $user): void
