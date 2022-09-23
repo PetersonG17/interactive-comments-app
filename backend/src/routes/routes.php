@@ -2,6 +2,7 @@
 
 use Slim\Routing\RouteCollectorProxy;
 use App\Comment\Api\V1\Actions\GetCommentsAction;
+use App\User\Api\V1\Actions\GetTokenAction;
 use App\User\Api\V1\Actions\GetUserAction;
 use App\User\Api\V1\Actions\PostUserAction;
 use GuzzleHttp\Psr7\Response;
@@ -20,5 +21,8 @@ $app->group('/api/v1', function (RouteCollectorProxy $group) {
     // Users
     $group->post('/users', PostUserAction::class);
     $group->get('/users/{id}', GetUserAction::class);
+
+    // Auth
+    $group->get('/token', GetTokenAction::class);
 
 });
