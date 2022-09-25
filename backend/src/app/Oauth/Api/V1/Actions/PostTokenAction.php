@@ -2,6 +2,7 @@
 
 namespace App\Oauth\Api\V1\Actions;
 
+use App\Oauth\Api\V1\Commands\CreateTokenCommand;
 use App\Oauth\Api\V1\Commands\CreateTokenCommandHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -20,6 +21,9 @@ class PostTokenAction
     {
         // TODO: Add Validation
         // client_id, & client_secret
+
+        $command = new CreateTokenCommand('test', 'test', 'test');
+        $this->handler->handle($command);
 
         // Construct response body
         // https://www.oauth.com/oauth2-servers/access-tokens/password-grant/

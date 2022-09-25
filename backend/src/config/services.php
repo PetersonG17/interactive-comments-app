@@ -6,22 +6,45 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use App\User\Domain\UserRepository;
 use App\User\Infrastructure\UserDatabaseRepository;
 
+// TODO: Clean this up
+// Get all config files and create a single config array
+$configFiles = scandir('../config');
+$keysToRemove = ['services.php', '.', '..'];
+foreach($keysToRemove as $key) {
+    $index = array_search($key, $configFiles);
+    unset($configFiles[$index]);
+}
+
+$config = [];
+foreach($configFiles as $configFile) {
+    $config = array_merge($config, include $configFile);
+}
+
+// TODO: Interfaces for these...
+// Database setup
 $capsule = new Capsule();
-$config = include 'database.php';
-$config = $config['databases']['postgres'];
 $capsule->addConnection(
     [
         'driver' => 'pgsql',
-        'host' => $config['host'],
-        'database' => $config['database'],
-        'port' => $config['port'],
-        'username' => $config['username'],
-        'password' => $config['password'],
+        'host' => $config['databases']['postgres']['host'],
+        'database' => $config['databases']['postgres']['database'],
+        'port' => $config['databases']['postgres']['port'],
+        'username' => $config['databases']['postgres']['username'],
+        'password' => $config['databases']['postgres']['password'],
     ]
 );
 $capsule->setAsGlobal();
 
+// Cache setup
+$predisClient = new \Predis\Client([
+    'scheme' => 'tcp',
+    'host'   => $config['caches']['redis']['host'],
+    'port'   => $config['caches']['redis']['port'],
+    'password'   => $config['caches']['redis']['password'],
+]);
+
 return [
     Capsule::class => $capsule,
+    \Predis\Client::class => $predisClient,
     UserRepository::class => new UserDatabaseRepository($capsule),
 ];

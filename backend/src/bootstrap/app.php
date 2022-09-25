@@ -1,7 +1,5 @@
 <?php
 
-use Throwable;
-use Handler\ErrorHandler;
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 

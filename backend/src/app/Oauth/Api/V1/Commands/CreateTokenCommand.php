@@ -2,7 +2,7 @@
 
 namespace App\Oauth\Api\V1\Commands;
 
-class CreateTokenCommandHandler
+class CreateTokenCommand
 {
 
     public function __construct(
