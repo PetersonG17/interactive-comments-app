@@ -7,7 +7,7 @@ class CreateTokenCommand
 
     public function __construct(
         public readonly string $grantType,
-        public readonly string $userName,
+        public readonly string $email,
         public readonly string $password
     )
     {

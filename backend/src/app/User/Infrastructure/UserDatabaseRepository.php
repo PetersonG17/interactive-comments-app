@@ -5,6 +5,7 @@ namespace App\User\Infrastructure;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use App\User\Domain\User;
 use App\User\Domain\UserRepository;
+use App\User\Domain\ValueObjects\HashedPassword;
 
 class UserDatabaseRepository implements UserRepository
 {
@@ -17,6 +18,25 @@ class UserDatabaseRepository implements UserRepository
         $this->database = $database;
     }
 
+    public function findByCredentials(string $email, HashedPassword $password): User
+    {
+        $result = $this->database::table('user')
+            ->select('*')
+            ->where('email', $email)
+            ->where('password', $password)
+            ->get();
+
+        return new User(
+            $result[0]->user_id,
+            $result[0]->email,
+            $result[0]->first_name,
+            $result[0]->last_name,
+            $result[0]->password
+        );
+    }
+
+
+
     public function find(int $id): User
     {
         // TODO: Validation
@@ -27,19 +47,23 @@ class UserDatabaseRepository implements UserRepository
 
         return new User(
             $result[0]->user_id,
+            $result[0]->email,
             $result[0]->first_name,
             $result[0]->last_name,
+            $result[0]->password
         );
     }
 
     public function save(User $user): void
     {
         $this->database::table(self::TABLE_NAME)
-            ->insert(
+            ->updateOrInsert(
                 [
                     "user_id" => $user->id(),
+                    "email" => $user->email(),
                     "first_name" => $user->firstName(),
-                    "last_name" => $user->lastName()
+                    "last_name" => $user->lastName(),
+                    "password" => $user->hashedPassword(),
                 ]
             );
     }

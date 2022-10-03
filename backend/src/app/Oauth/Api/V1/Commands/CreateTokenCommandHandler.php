@@ -2,19 +2,20 @@
 
 namespace App\Oauth\Api\V1\Commands;
 
+use App\User\Domain\UserRepository;
+
 class CreateTokenCommandHandler
 {
-    private \Predis\Client $client;
+    private UserRepository $repo;
 
-    public function __construct(\Predis\Client $client)
+    public function __construct(UserRepository $repo)
     {
-        $this->client = $client;
+        $this->repo = $repo;
     }
 
-    public function handle(CreateTokenCommand $command): int
+    public function handle(CreateTokenCommand $command): Token
     {
-        $this->client->set('testing', 'test123');
-        dd($this->client->get('testing'));
-        return 0;
+        
+        return $token;
     }
 }
