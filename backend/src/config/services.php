@@ -2,6 +2,8 @@
 
 // This file defines defintions for the Dependancy Injection
 
+use App\Oauth\Infrastructure\Factories\JwtTokenFactory;
+use App\Oauth\Infrastructure\Factories\TokenFactory;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use App\User\Domain\UserRepository;
 use App\User\Infrastructure\UserDatabaseRepository;
@@ -47,4 +49,5 @@ return [
     Capsule::class => $capsule,
     \Predis\Client::class => $predisClient,
     UserRepository::class => new UserDatabaseRepository($capsule),
+    TokenFactory::class => new JwtTokenFactory()
 ];

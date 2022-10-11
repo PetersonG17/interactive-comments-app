@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Oauth\Domain;
+namespace App\Oauth\Infrastructure\Repositories;
 
 interface TokenRepository {
 

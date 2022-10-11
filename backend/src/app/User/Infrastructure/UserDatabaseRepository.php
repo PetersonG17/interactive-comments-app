@@ -20,6 +20,7 @@ class UserDatabaseRepository implements UserRepository
 
     public function findByCredentials(string $email, HashedPassword $password): User
     {
+        // TODO: Validation
         $result = $this->database::table('user')
             ->select('*')
             ->where('email', $email)

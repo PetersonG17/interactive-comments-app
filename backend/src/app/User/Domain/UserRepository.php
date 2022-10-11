@@ -2,9 +2,11 @@
 
 namespace App\User\Domain;
 
+use App\User\Domain\ValueObjects\HashedPassword;
+
 interface UserRepository
 {
-    public function findByCredentials(string $email, string $password): User;
+    public function findByCredentials(string $email, HashedPassword $password): User;
 
     public function find(int $id): User;
 

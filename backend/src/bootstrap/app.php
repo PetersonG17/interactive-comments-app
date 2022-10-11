@@ -19,6 +19,9 @@ $app->add(new Zeuxisoo\Whoops\Slim\WhoopsMiddleware([
     'title'  => 'Error Exception',
 ]));
 
+// TODO: where to put this?
+$app->addBodyParsingMiddleware();
+
 include_once __DIR__ . '/../routes/routes.php';
 
 // TODO: Add error handlers....

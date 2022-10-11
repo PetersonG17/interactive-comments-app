@@ -22,7 +22,9 @@ class PostTokenAction
         // TODO: Add Validation
         // client_id, & client_secret
 
-        $command = new CreateTokenCommand('test', 'test', 'test');
+        $body = $request->getParsedBody();
+
+        $command = new CreateTokenCommand($body['email'], $body['password']);
         $this->handler->handle($command);
 
         // Construct response body

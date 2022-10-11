@@ -4,6 +4,7 @@ namespace App\User\Domain\ValueObjects;
 
 class HashedPassword 
 {
+    // TODO: Separate how this is hashed from the domain...
     private const SALT = 'S3cur3V@lu3!';
 
     private string $hashedPassword;

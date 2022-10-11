@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Oauth\Infrastructure;
+namespace App\Oauth\Infrastructure\Repositories;;
 
-use App\Oauth\Domain\Token;
-use App\Oauth\Domain\TokenRepository;
+use App\Oauth\Infrastructure\Token;
 use \Predis\Client;
 
 class RedisTokenRepository implements TokenRepository {
