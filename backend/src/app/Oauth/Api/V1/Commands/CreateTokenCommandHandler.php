@@ -7,6 +7,8 @@ use App\Oauth\Infrastructure\Factories\TokenFactory;
 use App\User\Domain\UserRepository;
 use App\Oauth\Infrastructure\Token;
 use App\Oauth\Infrastructure\TokenType;
+use App\User\Domain\Services\HashingService;
+use App\User\Infrastructure\Services\Md5HashingService;
 
 class CreateTokenCommandHandler
 {
@@ -22,7 +24,9 @@ class CreateTokenCommandHandler
     public function handle(CreateTokenCommand $command): Token
     {
         // Check if user is in repo
-        $user = $this->repo->findByCredentials($command->email, new HashedPassword($command->password));
+        $hashedPassword = Md5HashingService::hash($command->password);
+
+        $user = $this->repo->findByCredentials($command->email, $hashedPassword);
 
         $this->factory::make(TokenType::ACCESS, $user);
 

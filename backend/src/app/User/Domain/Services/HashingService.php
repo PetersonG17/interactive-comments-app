@@ -2,7 +2,10 @@
 
 namespace App\User\Domain\Services;
 
+use App\User\Domain\ValueObjects\HashedPassword;
+
+// TODO: Do we need this interface?
 interface HashingService
 {
-    public function hash(string $password): string;
+    public static function hash(string $password): HashedPassword;
 }
