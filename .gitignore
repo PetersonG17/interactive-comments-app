@@ -3,6 +3,7 @@
 
 # Backend
 backend/src/vendor
+.phpunit.result.cache
 
 # Frontend
 frontend/logs

@@ -18,5 +18,14 @@
             "App\\": "app/",
             "Database\\": "database/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "config": {
+        "process-timeout": 0
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit"
     }
 }
