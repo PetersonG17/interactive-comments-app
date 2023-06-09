@@ -4,13 +4,16 @@
 
 use App\Oauth\Infrastructure\Factories\JwtTokenFactory;
 use App\Oauth\Infrastructure\Factories\TokenFactory;
+use App\Oauth\Infrastructure\Repositories\RedisTokenRepository;
+use App\User\Domain\Services\HashingService;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use App\User\Domain\UserRepository;
+use App\User\Infrastructure\Services\Md5HashingService;
 use App\User\Infrastructure\UserDatabaseRepository;
 
 // TODO: Clean this up
 // Get all config files and create a single config array
-$configFiles = scandir('../config');
+$configFiles = scandir(__DIR__ . '/../config');
 $keysToRemove = ['services.php', '.', '..'];
 foreach($keysToRemove as $key) {
     $index = array_search($key, $configFiles);
@@ -49,5 +52,7 @@ return [
     Capsule::class => $capsule,
     \Predis\Client::class => $predisClient,
     UserRepository::class => new UserDatabaseRepository($capsule),
-    TokenFactory::class => new JwtTokenFactory()
+    TokenRepository::class => new RedisTokenRepository($predisClient),
+    TokenFactory::class => new JwtTokenFactory(),
+    HashingService::class => new Md5HashingService()
 ];

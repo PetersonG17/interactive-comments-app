@@ -8,7 +8,7 @@ class HashedPassword
 
     public function __construct(string $hashedPassword) 
     {
-        $this->hashedPassword = $this->hashedPassword;
+        $this->hashedPassword = $hashedPassword;
     }
 
     public function value(): string

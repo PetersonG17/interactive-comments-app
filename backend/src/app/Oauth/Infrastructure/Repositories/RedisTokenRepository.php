@@ -9,15 +9,18 @@ class RedisTokenRepository implements TokenRepository {
 
     private Client $client;
 
-    public function __construct(Client $client) {
+    public function __construct(Client $client) 
+    {
         $this->client = $client;
     }
 
-    public function find(int $userId): Token {
+    public function find(int $userId): Token 
+    {
 
     }
 
-    public function save(Token $token): void {
+    public function save(Token $token): void 
+    {
         
     }
 }

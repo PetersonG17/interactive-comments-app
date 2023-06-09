@@ -1,16 +1,10 @@
 <?php
 
-use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+$container = require_once 'bootstrap.php';
 
-// TODO: Clean up this file...
-
-$containerBuilder = new ContainerBuilder();
-$containerBuilder->addDefinitions('../config/services.php');
-$container = $containerBuilder->build();
-
+// Create the App
 AppFactory::setContainer($container);
 $app = AppFactory::create();
 $app->add(new Zeuxisoo\Whoops\Slim\WhoopsMiddleware([
@@ -19,7 +13,6 @@ $app->add(new Zeuxisoo\Whoops\Slim\WhoopsMiddleware([
     'title'  => 'Error Exception',
 ]));
 
-// TODO: where to put this?
 $app->addBodyParsingMiddleware();
 
 include_once __DIR__ . '/../routes/routes.php';

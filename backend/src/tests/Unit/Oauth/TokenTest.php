@@ -5,7 +5,7 @@ namespace Tests\Unit\Oauth;
 use App\Oauth\Infrastructure\Token;
 use App\Oauth\Infrastructure\TokenType;
 use Carbon\Carbon;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class TokenTest extends TestCase
 {

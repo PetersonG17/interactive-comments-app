@@ -18,13 +18,13 @@ class UserDatabaseRepository implements UserRepository
         $this->database = $database;
     }
 
-    public function findByCredentials(string $email, HashedPassword $password): User
+    public function findByCredentials(string $email, HashedPassword $hashedPassword): User
     {
         // TODO: Validation
         $result = $this->database::table('user')
             ->select('*')
             ->where('email', $email)
-            ->where('password', $password)
+            ->where('password', $hashedPassword->value)
             ->get();
 
         return new User(
@@ -32,7 +32,7 @@ class UserDatabaseRepository implements UserRepository
             $result[0]->email,
             $result[0]->first_name,
             $result[0]->last_name,
-            $result[0]->password
+            $result[0]->hashedPassword
         );
     }
 
