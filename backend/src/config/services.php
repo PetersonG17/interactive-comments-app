@@ -13,7 +13,7 @@ use App\User\Infrastructure\UserDatabaseRepository;
 
 // TODO: Clean this up
 // Get all config files and create a single config array
-$configFiles = scandir(__DIR__ . '/../config');
+$configFiles = scandir(__DIR__);
 $keysToRemove = ['services.php', '.', '..'];
 foreach($keysToRemove as $key) {
     $index = array_search($key, $configFiles);
@@ -24,6 +24,8 @@ $config = [];
 foreach($configFiles as $configFile) {
     $config = array_merge($config, include $configFile);
 }
+
+var_dump($config);
 
 // TODO: Interfaces for these...
 // Database setup

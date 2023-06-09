@@ -11,6 +11,7 @@ class TestCase extends FrameworkTestCase
 
     public function __construct()
     {
+        parent::__construct();
         $this->container = require(__DIR__ . '/../bootstrap/bootstrap.php');
     }
 }
