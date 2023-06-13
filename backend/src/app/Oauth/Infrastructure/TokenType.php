@@ -2,8 +2,8 @@
 
 namespace App\Oauth\Infrastructure;
 
-enum TokenType
+enum TokenType: int
 {
-    case ACCESS;
-    case REFRESH;
+    case ACCESS = 1;
+    case REFRESH = 2;
 }

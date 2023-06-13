@@ -16,11 +16,13 @@ class RedisTokenRepository implements TokenRepository {
 
     public function find(int $userId): Token 
     {
+        $result = $this->client->get("token-" . $userId);
 
+        return Token::fromString($result);
     }
 
     public function save(Token $token): void 
     {
-        
+         // TODO: Implement this
     }
 }

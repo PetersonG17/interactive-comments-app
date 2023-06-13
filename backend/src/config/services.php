@@ -25,8 +25,6 @@ foreach($configFiles as $configFile) {
     $config = array_merge($config, include $configFile);
 }
 
-var_dump($config);
-
 // TODO: Interfaces for these...
 // Database setup
 $capsule = new Capsule();
