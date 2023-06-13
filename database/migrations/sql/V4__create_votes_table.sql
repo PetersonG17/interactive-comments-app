@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS "votes" (
-   id      INT GENERATED ALWAYS AS IDENTITY,
-   voter_id     INT NOT NULL,
-   comment_id   INT NOT NULL,
+   id           UUID NOT NULL,
+   voter_id     UUID NOT NULL,
+   comment_id   UUID NOT NULL,
    created_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY(id),
     CONSTRAINT fk_user

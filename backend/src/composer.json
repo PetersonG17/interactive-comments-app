@@ -10,7 +10,9 @@
         "illuminate/filesystem": "^9.26",
         "nesbot/carbon": "^2.62",
         "firebase/php-jwt": "^6.3",
-        "predis/predis": "^2.0"
+        "predis/predis": "^2.0",
+        "fakerphp/faker": "^1.23",
+        "ramsey/uuid": "^4.7"
     },
     "autoload": {
         "files": ["ConfigLoader.php"],

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS "comments" (
-   id   INT GENERATED ALWAYS AS IDENTITY,
-   author_id    INT NOT NULL,
+   id           UUID NOT NULL,
+   author_id    UUID NOT NULL,
    content      TEXT NOT NULL,
    created_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY(id),
