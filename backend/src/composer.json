@@ -31,6 +31,6 @@
     },
     "scripts": {
         "test": "./vendor/bin/phpunit",
-        "seed": "Database\\Seeders\\DatabaseSeeder::seed"
+        "seed": "php ./Database/Seed.php"
     }
 }

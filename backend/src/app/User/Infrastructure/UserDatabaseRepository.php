@@ -6,6 +6,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use App\User\Domain\User;
 use App\User\Domain\UserRepository;
 use App\User\Domain\ValueObjects\HashedPassword;
+use Illuminate\Support\Collection;
 
 class UserDatabaseRepository implements UserRepository
 {
@@ -21,36 +22,24 @@ class UserDatabaseRepository implements UserRepository
     public function findByCredentials(string $email, HashedPassword $hashedPassword): User
     {
         // TODO: Validation
-        $result = $this->database::table(self::TABLE_NAME)
+        $record = $this->database::table(self::TABLE_NAME)
             ->select('*')
             ->where('email', $email)
             ->where('password', $hashedPassword->value())
             ->get();
 
-        return new User(
-            $result[0]->id,
-            $result[0]->email,
-            $result[0]->first_name,
-            $result[0]->last_name,
-            new HashedPassword($result[0]->password)
-        );
+        return $this->hydrate($record);
     }
 
     public function find(string $id): User
     {
         // TODO: Validation
-        $result = $this->database::table(self::TABLE_NAME)
+        $record = $this->database::table(self::TABLE_NAME)
             ->select('*')
             ->where('id', $id)
             ->get();
 
-        return new User(
-            $result[0]->id,
-            $result[0]->email,
-            $result[0]->first_name,
-            $result[0]->last_name,
-            new HashedPassword($result[0]->password)
-        );
+        return $this->hydrate($record);
     }
 
     public function save(User $user): void
@@ -65,5 +54,21 @@ class UserDatabaseRepository implements UserRepository
                     "password" => $user->hashedPassword()->value(),
                 ]
             );
+    }
+
+    /**
+     * Translates to the user entity from the database record
+     * @param array - An array of data for a single database record
+     * @return User
+     */
+    public function hydrate(array|Collection $record): User
+    {
+        return new User(
+            $record[0]->id,
+            $record[0]->email,
+            $record[0]->first_name,
+            $record[0]->last_name,
+            new HashedPassword($record[0]->password)
+        );
     }
 }
