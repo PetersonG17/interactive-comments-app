@@ -28,11 +28,11 @@ class UserDatabaseRepository implements UserRepository
             ->get();
 
         return new User(
-            $result[0]->user_id,
+            $result[0]->id,
             $result[0]->email,
             $result[0]->first_name,
             $result[0]->last_name,
-            $result[0]->hashedPassword
+            new HashedPassword($result[0]->password)
         );
     }
 
@@ -58,7 +58,7 @@ class UserDatabaseRepository implements UserRepository
         $this->database::table(self::TABLE_NAME)
             ->updateOrInsert(
                 [
-                    "user_id" => $user->id(),
+                    "id" => $user->id(),
                     "email" => $user->email(),
                     "first_name" => $user->firstName(),
                     "last_name" => $user->lastName(),
