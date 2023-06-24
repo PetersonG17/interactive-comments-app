@@ -3,33 +3,33 @@
 namespace App\User\Api\V1\Actions;
 
 use App\User\Domain\UserRepository;
-use App\User\Infrastructure\Queries\GetSingleUserQuery;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 
 class GetUserAction
 {
-    private GetSingleUserQuery $query;
+    private UserRepository $repository;
 
-    public function __construct(GetSingleUserQuery $query)
+    public function __construct(UserRepository $repository)
     {
-        $this->query = $query;
+        $this->repository = $repository;
     }
 
-    public function __invoke(Request $request, ResponseInterface $response, array $args)
+    public function __invoke(Request $request, ResponseInterface $responseInterface, array $args)
     {
         // TODO: Validation
+        // TODO: Tests
         $userId = $args['id'];
 
-        $userDto = $this->query->execute($userId);
+        $user = $this->repository->find($userId);
 
         $body = json_encode(
             [
-                "user_id" => $userDto->id,
-                "first_name" => $userDto->firstName,
-                "last_name" => $userDto->lastName,
-                "created_at" => $userDto->createdAt->toDateTimeString()
+                "id" => $user->id(),
+                "email" => $user->email(),
+                "first_name" => $user->firstName(),
+                "last_name" => $user->lastName(),
             ]
         );
         
