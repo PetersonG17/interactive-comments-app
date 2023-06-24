@@ -2,17 +2,18 @@
 
 namespace App\User\Domain;
 
+use App\Shared\Domain\Entity;
 use App\User\Domain\ValueObjects\HashedPassword;
 
-class User
+class User extends Entity
 {
-    private int $id;
+    private string $id;
     private string $email;
     private string $firstName;
     private string $lastName;
     private HashedPassword $hashedPassword;
 
-    public function __construct(int $id, string $email, string $firstName, string $lastName, HashedPassword $hashedPassword)
+    public function __construct(string $id, string $email, string $firstName, string $lastName, HashedPassword $hashedPassword)
     {
         $this->id = $id;
         $this->email = $email;
@@ -21,12 +22,12 @@ class User
         $this->hashedPassword = $hashedPassword;
     }
 
-    public function id(): int
+    public function id(): string
     {
         return $this->id;
     }
 
-    public function email(): int
+    public function email(): string
     {
         return $this->email;
     }

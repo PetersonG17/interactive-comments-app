@@ -30,6 +30,7 @@
         "process-timeout": 0
     },
     "scripts": {
-        "test": "./vendor/bin/phpunit"
+        "test": "./vendor/bin/phpunit",
+        "seed": "Database\\Seeders\\DatabaseSeeder::seed"
     }
 }

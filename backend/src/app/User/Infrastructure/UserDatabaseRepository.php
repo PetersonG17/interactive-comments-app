@@ -9,7 +9,7 @@ use App\User\Domain\ValueObjects\HashedPassword;
 
 class UserDatabaseRepository implements UserRepository
 {
-    public const TABLE_NAME = 'user';
+    public const TABLE_NAME = 'users';
 
     private Capsule $database;
 
@@ -21,10 +21,10 @@ class UserDatabaseRepository implements UserRepository
     public function findByCredentials(string $email, HashedPassword $hashedPassword): User
     {
         // TODO: Validation
-        $result = $this->database::table('user')
+        $result = $this->database::table(self::TABLE_NAME)
             ->select('*')
             ->where('email', $email)
-            ->where('password', $hashedPassword->value)
+            ->where('password', $hashedPassword->value())
             ->get();
 
         return new User(
@@ -36,22 +36,20 @@ class UserDatabaseRepository implements UserRepository
         );
     }
 
-
-
-    public function find(int $id): User
+    public function find(string $id): User
     {
         // TODO: Validation
-        $result = $this->database::table('user')
+        $result = $this->database::table(self::TABLE_NAME)
             ->select('*')
-            ->where('user_id', $id)
+            ->where('id', $id)
             ->get();
 
         return new User(
-            $result[0]->user_id,
+            $result[0]->id,
             $result[0]->email,
             $result[0]->first_name,
             $result[0]->last_name,
-            $result[0]->password
+            new HashedPassword($result[0]->password)
         );
     }
 
@@ -64,15 +62,8 @@ class UserDatabaseRepository implements UserRepository
                     "email" => $user->email(),
                     "first_name" => $user->firstName(),
                     "last_name" => $user->lastName(),
-                    "password" => $user->hashedPassword(),
+                    "password" => $user->hashedPassword()->value(),
                 ]
             );
-    }
-
-    public function nextId(): int
-    {
-        $result = $this->database::select("SELECT nextval('user_user_id_seq')");
-
-        return $result[0]->nextval;
     }
 }

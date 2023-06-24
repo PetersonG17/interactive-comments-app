@@ -10,6 +10,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use App\User\Domain\UserRepository;
 use App\User\Infrastructure\Services\Md5HashingService;
 use App\User\Infrastructure\UserDatabaseRepository;
+use Database\Factories\DatabaseRecordFactory;
 
 // TODO: Clean this up
 // Get all config files and create a single config array
@@ -48,11 +49,15 @@ $predisClient = new \Predis\Client([
     'password'   => $config['caches']['redis']['password'],
 ]);
 
+// Faker setup
+$faker = Faker\Factory::create();
+
 return [
     Capsule::class => $capsule,
     \Predis\Client::class => $predisClient,
     UserRepository::class => new UserDatabaseRepository($capsule),
     TokenRepository::class => new RedisTokenRepository($predisClient),
     TokenFactory::class => new JwtTokenFactory(),
-    HashingService::class => new Md5HashingService()
+    HashingService::class => new Md5HashingService(),
+    Faker\Generator::class => $faker,
 ];
