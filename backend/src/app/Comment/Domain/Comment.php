@@ -3,10 +3,8 @@
 namespace App\Comment\Domain;
 
 use App\Shared\Domain\Entity;
-use DateTimeInterface;
 use App\User\Domain\User;
 use App\User\Domain\UserRepository;
-use Carbon\Carbon;
 
 class Comment extends Entity
 {
@@ -16,12 +14,13 @@ class Comment extends Entity
     private string $content;
     private array $likes = [];
 
-    public function __construct(string $id, string $authorId, string $content, array $likes = [])
+    public function __construct(string $id, string $authorId, string $content, array $likes=[], User $author=null)
     {
         $this->id = $id;
         $this->authorId = $authorId;
         $this->content = $content;
         $this->likes = $likes;
+        $this->author = $author;
     }
 
     public function id(): string

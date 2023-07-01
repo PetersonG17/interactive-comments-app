@@ -22,6 +22,8 @@ class CommentFactory extends DatabaseRecordFactory {
             isset($overrides['id']) ? $overrides['id'] : $this->faker->uuid(),
             isset($overrides['author_id']) ? $overrides['author_id'] : $userId,
             isset($overrides['content']) ? $overrides['content'] : $this->faker->paragraph(4),
+            [],
+            $overrides['author'] ?? null
         );
     }
 
