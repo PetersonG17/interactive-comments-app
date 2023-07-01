@@ -2,9 +2,9 @@
 
 use Slim\Routing\RouteCollectorProxy;
 use App\Comment\Api\V1\Actions\GetCommentsAction;
-use App\Oauth\Api\V1\Actions\PostTokenAction;
-use App\User\Api\V1\Actions\GetUserAction;
-use App\User\Api\V1\Actions\PostUserAction;
+use App\Application\V1\Actions\PostTokenAction;
+use App\Application\V1\Actions\GetUserAction;
+use App\Application\V1\Actions\PostUserAction;
 use GuzzleHttp\Psr7\Response;
 
 // Define the routes in the app

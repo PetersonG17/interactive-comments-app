@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use App\Comment\Domain\Comment;
-use App\Comment\Domain\CommentRepository;
-use App\Shared\Infrastructure\UuidGenerator;
+use App\Domain\Entities\Comment;
+use App\Domain\Interfaces\CommentRepository;
+use App\Infrastructure\Generators\UuidGenerator;
 use Database\Factories\CommentFactory;
 use Database\Factories\UserFactory;
 use Mockery;

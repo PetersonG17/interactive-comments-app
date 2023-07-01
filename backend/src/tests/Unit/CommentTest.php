@@ -2,11 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\User\Domain\UserRepository;
+use App\Domain\Interfaces\UserRepository;
 use Database\Factories\CommentFactory;
 use Database\Factories\UserFactory;
 use Mockery;
-use App\User\Domain\User;
+use App\Domain\User;
 use Tests\TestCase;
 
 class CommentTest extends TestCase

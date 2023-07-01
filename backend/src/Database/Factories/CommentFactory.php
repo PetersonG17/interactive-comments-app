@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Comment\Domain\Comment;
+use App\Domain\Entities\Comment;
 use Illuminate\Support\Carbon;
 
 class CommentFactory extends DatabaseRecordFactory {

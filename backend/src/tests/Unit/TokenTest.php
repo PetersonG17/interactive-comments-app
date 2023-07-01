@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Oauth\Infrastructure\Token;
-use App\Oauth\Infrastructure\TokenType;
+use App\Infrastructure\Token;
+use App\Infrastructure\TokenType;
 use Carbon\Carbon;
 use Tests\TestCase;
 

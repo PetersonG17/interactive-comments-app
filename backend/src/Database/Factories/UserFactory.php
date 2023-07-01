@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\User\Domain\User;
-use App\User\Infrastructure\Services\Md5HashingService;
+use App\Domain\User;
+use App\Infrastructure\Services\Md5HashingService;
 
 class UserFactory extends DatabaseRecordFactory {
 

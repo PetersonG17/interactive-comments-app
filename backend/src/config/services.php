@@ -2,15 +2,14 @@
 
 // This file defines defintions for the Dependancy Injection
 
-use App\Oauth\Infrastructure\Factories\JwtTokenFactory;
-use App\Oauth\Infrastructure\Factories\TokenFactory;
-use App\Oauth\Infrastructure\Repositories\RedisTokenRepository;
-use App\User\Domain\Services\HashingService;
+use App\Infrastructure\Factories\JwtTokenFactory;
+use App\Infrastructure\Factories\TokenFactory;
+use App\Infrastructure\Repositories\RedisTokenRepository;
+use App\Domain\Services\HashingService;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use App\User\Domain\UserRepository;
-use App\User\Infrastructure\Services\Md5HashingService;
-use App\User\Infrastructure\UserDatabaseRepository;
-use Database\Factories\DatabaseRecordFactory;
+use App\Domain\UserRepository;
+use App\Infrastructure\Services\Md5HashingService;
+use App\Infrastructure\Repositories\UserDatabaseRepository;
 
 // TODO: Clean this up
 // Get all config files and create a single config array

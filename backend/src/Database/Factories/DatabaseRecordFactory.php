@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Shared\Domain\Entity;
+use App\Domain\Entities\Entity;
 use Faker\Generator as Faker;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
