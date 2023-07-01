@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Oauth;
+namespace Tests\Unit;
 
 use App\Oauth\Infrastructure\Token;
 use App\Oauth\Infrastructure\TokenType;

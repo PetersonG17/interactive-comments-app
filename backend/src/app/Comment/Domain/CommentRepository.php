@@ -8,5 +8,5 @@ interface CommentRepository
 
     public function save(Comment $comment): void;
 
-    public function getCommentsByAuthorId(string $authorId): array;
+    public function findByAuthorId(string $authorId): array;
 }

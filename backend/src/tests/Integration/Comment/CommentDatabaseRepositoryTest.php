@@ -93,7 +93,7 @@ class CommentDatabaseRepositoryTest extends TestCase
         );
         $this->cleanupIds['comments'][] = $expectedComment2->id();
 
-        $comments = $this->repository->getCommentsByAuthorId($this->user->id());
+        $comments = $this->repository->findByAuthorId($this->user->id());
 
         $this->assertEquals(2, count($comments));
         $this->assertInstanceOf(Comment::class, $comments[0]);

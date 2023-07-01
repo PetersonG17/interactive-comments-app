@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Comment;
+namespace Tests\Unit;
 
 use App\User\Domain\UserRepository;
 use Database\Factories\CommentFactory;

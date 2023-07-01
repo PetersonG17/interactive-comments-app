@@ -50,7 +50,7 @@ class CommentDatabaseRepository implements CommentRepository
         );
     }
 
-    public function getCommentsByAuthorId(string $authorId): array
+    public function findByAuthorId(string $authorId): array
     {
         // TODO: Validation
         $records = $this->database::table(self::TABLE_NAME)

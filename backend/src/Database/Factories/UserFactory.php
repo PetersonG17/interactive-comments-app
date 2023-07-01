@@ -14,7 +14,8 @@ class UserFactory extends DatabaseRecordFactory {
             isset($overrides['email']) ? $overrides['email'] : $this->faker->email(),
             isset($overrides['first_name']) ? $overrides['first_name'] : $this->faker->firstName(),
             isset($overrides['last_name']) ? $overrides['last_name'] : $this->faker->lastName(),
-            isset($overrides['password']) ? $overrides['password'] : Md5HashingService::hash($this->faker->word())
+            isset($overrides['password']) ? $overrides['password'] : Md5HashingService::hash($this->faker->word()),
+            $overrides['comments'] ?? null
         );
     }
 

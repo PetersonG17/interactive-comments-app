@@ -13,7 +13,7 @@ class User extends Entity
     private string $firstName;
     private string $lastName;
     private HashedPassword $hashedPassword;
-    private array|null $comments; // TODO: Implement a proxy for comments that aid with lazy loading
+    private array|null $comments;
 
     public function __construct(string $id, string $email, string $firstName, string $lastName, HashedPassword $hashedPassword, array|null $comments=null)
     {
@@ -53,7 +53,7 @@ class User extends Entity
     public function comments(CommentRepository $repository): array
     {
         if (!isset($this->comments)) {
-            $this->comments = $repository->getCommentsByUserId($this->id);
+            $this->comments = $repository->findByAuthorId($this->id);
         }
 
         return $this->comments;
