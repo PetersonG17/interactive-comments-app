@@ -56,12 +56,7 @@ class UserDatabaseRepository implements UserRepository
             );
     }
 
-    /**
-     * Translates to the user entity from the database record
-     * @param array - An array of data for a single database record
-     * @return User
-     */
-    public function hydrate(array|Collection $record): User
+    private function hydrate(array|Collection $record): User
     {
         return new User(
             $record[0]->id,

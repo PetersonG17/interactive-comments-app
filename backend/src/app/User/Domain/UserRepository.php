@@ -2,10 +2,9 @@
 
 namespace App\User\Domain;
 
-use App\Shared\Infrastructure\HydratesEntity;
 use App\User\Domain\ValueObjects\HashedPassword;
 
-interface UserRepository extends HydratesEntity
+interface UserRepository
 {
     public function findByCredentials(string $email, HashedPassword $password): User;
 

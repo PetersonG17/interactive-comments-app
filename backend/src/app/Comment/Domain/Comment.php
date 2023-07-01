@@ -5,21 +5,22 @@ namespace App\Comment\Domain;
 use App\Shared\Domain\Entity;
 use DateTimeInterface;
 use App\User\Domain\User;
+use App\User\Domain\UserRepository;
+use Carbon\Carbon;
 
 class Comment extends Entity
 {
     private string $id;
-    private User $author;
+    private string $authorId;
+    public User|null $author;
     private string $content;
-    private DateTimeInterface $createdAt;
     private array $likes = [];
 
-    public function __construct(string $id, User $author, string $content, DateTimeInterface $createdAt, array $likes = [])
+    public function __construct(string $id, string $authorId, string $content, array $likes = [])
     {
         $this->id = $id;
-        $this->author = $author;
+        $this->authorId = $authorId;
         $this->content = $content;
-        $this->createdAt = $createdAt;
         $this->likes = $likes;
     }
 
@@ -28,19 +29,23 @@ class Comment extends Entity
         return $this->id;
     }
 
-    public function author(): User
+    public function authorId(): string
     {
+        return $this->authorId;
+    }
+
+    public function author(UserRepository $repository): User
+    {
+        if(!isset($this->author)) {
+            $this->author = $repository->find($this->authorId);
+        }
+
         return $this->author;
     }
 
     public function content(): string
     {
         return $this->content;
-    }
-
-    public function createdAt(): DateTimeInterface
-    {
-        return $this->createdAt;
     }
 
     public function score(): int

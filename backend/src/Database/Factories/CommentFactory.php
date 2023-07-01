@@ -3,39 +3,40 @@
 namespace Database\Factories;
 
 use App\Comment\Domain\Comment;
-use Database\Factories\UserFactory;
+use Illuminate\Support\Carbon;
 
 class CommentFactory extends DatabaseRecordFactory {
 
-    private array $authorIds = [];
-
-    public function make(): Comment
+    public function make(array $overrides = []): Comment
     {
-        for (int $i = 0; $i < 10; $i++) {
-            
-        }
+        $records = $this->database::table('users')
+            ->select('id')
+            ->limit(50)
+            ->get();
 
-        dd($userIDs);
+        $key = array_rand($records->toArray());
+
+        $userId = $records->toArray()[$key]->id;
 
         return new Comment(
-            $this->faker->uuid(),
-            $this->user,
+            isset($overrides['id']) ? $overrides['id'] : $this->faker->uuid(),
+            isset($overrides['author_id']) ? $overrides['author_id'] : $userId,
+            isset($overrides['content']) ? $overrides['content'] : $this->faker->paragraph(4),
         );
     }
 
-    public function create(): Comment
+    public function create(array $overrides = []): Comment
     {
-        $comment = $this->make();
+        $comment = $this->make($overrides);
 
-        // $this->database::table('comments')
-        //     ->updateOrInsert(
-        //         [
-        //             "id" => $comment->id(),
-        //             "author_id" => ,
-        //             "first_name" => $comment->firstName(),
-        //             "last_name" => $comment->lastName(),
-        //         ]
-        //     );
+        $this->database::table('comments')
+            ->updateOrInsert(
+                [
+                    "id" => $comment->id(),
+                    "author_id" => $comment->authorId(),
+                    "content" => $comment->content(),
+                ]
+            );
 
         return $comment;
     }

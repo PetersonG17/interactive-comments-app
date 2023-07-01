@@ -7,20 +7,20 @@ use App\User\Infrastructure\Services\Md5HashingService;
 
 class UserFactory extends DatabaseRecordFactory {
 
-    public function make(): User
+    public function make(array $overrides = []): User
     {
         return new User(
-            $this->faker->uuid(),
-            $this->faker->email(),
-            $this->faker->firstName(),
-            $this->faker->lastName(),
-            Md5HashingService::hash($this->faker->word())
+            isset($overrides['id']) ? $overrides['id'] : $this->faker->uuid(),
+            isset($overrides['email']) ? $overrides['email'] : $this->faker->email(),
+            isset($overrides['first_name']) ? $overrides['first_name'] : $this->faker->firstName(),
+            isset($overrides['last_name']) ? $overrides['last_name'] : $this->faker->lastName(),
+            isset($overrides['password']) ? $overrides['password'] : Md5HashingService::hash($this->faker->word())
         );
     }
 
-    public function create(): User
+    public function create(array $overrides = []): User
     {
-        $user = $this->make();
+        $user = $this->make($overrides);
 
         $this->database::table('users')
             ->updateOrInsert(

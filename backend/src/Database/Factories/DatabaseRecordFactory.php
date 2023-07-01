@@ -17,7 +17,7 @@ abstract class DatabaseRecordFactory {
         $this->faker = $faker;
     }
 
-    abstract public function make(): Entity;
+    abstract public function make(array $overrides = []): Entity;
 
-    abstract public function create(): Entity;
+    abstract public function create(array $overrides = []): Entity;
 }
