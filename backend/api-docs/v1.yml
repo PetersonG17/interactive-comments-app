@@ -1,0 +1,40 @@
+openapi: 3.0.0
+
+info:
+  title: Sample API
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 1.0.0
+
+paths:
+
+  /api/v1/users/{id}:
+
+    get:
+      summary: Get users in the system
+      description: Get all users in the system
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _meta:
+                    type: object
+                    properties:
+                      success:
+                        type: string
+                  result:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+
+

@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure\Queries;
 
-use App\Infrastructure\Queries\DataTransferObjects\DataTransferObject;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 abstract class Query {
@@ -14,5 +13,5 @@ abstract class Query {
         $this->database = $database;
     }
 
-    abstract public function execute(QueryParameters $parameters): DataTransferObject;
+    abstract public function execute(QueryParameters $parameters): array;
 }

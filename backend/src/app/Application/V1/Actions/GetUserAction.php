@@ -26,7 +26,7 @@ class GetUserAction
                 "_meta" => [
                     "success" => true
                 ],
-                "results" => [
+                "result" => [
                     "id" => $userDTO->id,
                     "email" => $userDTO->email,
                     "first_name" => $userDTO->firstName,

@@ -2,7 +2,7 @@
 
 namespace App\Application\V1\Actions;
 
-use App\Domain\UserRepository;
+use App\Domain\Interfaces\UserRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use GuzzleHttp\Psr7\Response;
