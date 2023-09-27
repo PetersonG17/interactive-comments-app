@@ -2,7 +2,6 @@
 
 namespace App\Application\V1\Actions;
 
-use App\Domain\UserRepository;
 use App\Infrastructure\Queries\GetSingleUserQuery;
 use App\Infrastructure\Queries\QueryParameters;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -18,17 +17,21 @@ class GetUserAction
     {
         // TODO: Validation
         // TODO: Tests
-        $userId = $args['id'];
 
         $params = (new QueryParameters())->add('id', $args['id']);
         $userDTO = $this->query->execute($params);
 
         $body = json_encode(
             [
-                "id" => $userDTO->id,
-                "email" => $userDTO->email,
-                "first_name" => $userDTO->firstName,
-                "last_name" => $userDTO->lastName,
+                "_meta" => [
+                    "success" => true
+                ],
+                "results" => [
+                    "id" => $userDTO->id,
+                    "email" => $userDTO->email,
+                    "first_name" => $userDTO->firstName,
+                    "last_name" => $userDTO->lastName,
+                ]
             ]
         );
         
