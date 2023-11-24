@@ -2,7 +2,7 @@
 
 namespace App\Application\V1\Actions;
 
-use App\Infrastructure\Queries\GetSingleUserQuery;
+use App\Infrastructure\Queries\Users\GetSingleUserQuery;
 use App\Infrastructure\Queries\QueryParameters;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use GuzzleHttp\Psr7\Response;
@@ -23,15 +23,10 @@ class GetUserAction
 
         $body = json_encode(
             [
-                "_meta" => [
-                    "success" => true
-                ],
-                "result" => [
-                    "id" => $userDTO->id,
-                    "email" => $userDTO->email,
-                    "first_name" => $userDTO->firstName,
-                    "last_name" => $userDTO->lastName,
-                ]
+                "id" => $userDTO->id,
+                "email" => $userDTO->email,
+                "first_name" => $userDTO->firstName,
+                "last_name" => $userDTO->lastName,
             ]
         );
         

@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Infrastructure\Queries;
+namespace App\Infrastructure\Queries\Users;
 
-use App\Infrastructure\Queries\DataTransferObjects\DataTransferObject;
-use App\Infrastructure\Queries\DataTransferObjects\UserDTO;
+use Carbon\Carbon;
+use App\Infrastructure\Queries\Query;
+use App\Infrastructure\Queries\QueryParameters;
+use App\Infrastructure\Queries\Users\UserDTO;
 
 class GetSingleUserQuery extends Query {
 
-    public function execute(QueryParameters $parameters): DataTransferObject
+    public function execute(QueryParameters $parameters): UserDTO
     {
         // TODO: Exception handling
         $record = $this->database::table('users')
@@ -19,7 +21,7 @@ class GetSingleUserQuery extends Query {
             $record->first_name,
             $record->last_name,
             $record->email,
-            $record->created_at
+            Carbon::parse($record->created_at)
         );
     }
 }

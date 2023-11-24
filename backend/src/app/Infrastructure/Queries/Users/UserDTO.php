@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Queries\DataTransferObjects;
+namespace App\Infrastructure\Queries\Users;
 
 use Carbon\Carbon;
 

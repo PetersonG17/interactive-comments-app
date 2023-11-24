@@ -1,8 +1,8 @@
 openapi: 3.0.0
 
 info:
-  title: Sample API
-  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  title: Interactive Comments API 
+  description: An API to manage data related to the interactive comments application
   version: 1.0.0
 
 paths:
@@ -10,8 +10,8 @@ paths:
   /api/v1/users/{id}:
 
     get:
-      summary: Get users in the system
-      description: Get all users in the system
+      summary: Get a single user by ID
+      description: Get a single user by ID
       responses:
         200:
           description: Success
@@ -20,21 +20,37 @@ paths:
               schema:
                 type: object
                 properties:
-                  _meta:
-                    type: object
-                    properties:
-                      success:
-                        type: string
-                  result:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      email:
-                        type: string
-                      first_name:
-                        type: string
-                      last_name:
-                        type: string
+                  id:
+                    type: integer
+                  email:
+                    type: string
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
+
+  /api/v1/users:
+
+    get:
+      summary: Get multiple users by ID
+      description: Get multiple users by ID
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    email:
+                      type: string
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
 
 
