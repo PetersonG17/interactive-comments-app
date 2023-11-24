@@ -4,6 +4,7 @@ namespace App\Application\V1\Actions;
 
 use App\Application\Commands\CreateTokenCommand;
 use App\Application\Commands\CreateTokenCommandHandler;
+use App\Application\V1\Enums\GrantType;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use GuzzleHttp\Psr7\Response;
@@ -22,10 +23,28 @@ class PostTokenAction
         // TODO: Add Validation
         // client_id, & client_secret
 
-        $body = $request->getParsedBody();
+        $body = $request->getBody();
 
-        $command = new CreateTokenCommand($body['email'], $body['password']);
-        $this->handler->handle($command);
+        // Simple validation
+        if (!isset($body->email) || !isset($body->password) || !isset($body->grant_type)) {
+            return new Response(400, ['Content-Type' => 'application/json'], json_encode(['message' => 'Invalid request body. Required Fields: email, password, grant_type.']));
+        }
+
+        try {
+            GrantType::tryFrom(strtolower($body->grant_type));
+        } catch (\Exception $e) {
+            return new Response(400, ['Content-Type' => 'application/json'], json_encode(['message' => 'Invalid grant_type. Valid values: password, refresh_token.']));
+        }
+
+        // If password grant type create new access token
+        if ($body->grant_type === GrantType::Password->value) {
+            $command = new CreateTokenCommand($body->email, $body->password);
+            $this->handler->handle($command);
+        } else { // Refresh grant type, refresh the access token
+
+        }
+
+
 
         // Construct response body
         // https://www.oauth.com/oauth2-servers/access-tokens/password-grant/

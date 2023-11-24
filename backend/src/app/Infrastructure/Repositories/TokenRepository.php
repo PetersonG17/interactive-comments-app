@@ -6,7 +6,9 @@ use App\Infrastructure\Token;
 
 interface TokenRepository {
 
-    public function find(int $userId): Token;
+    public function find(string $tokenClass, string $userId): Token;
 
-    public function save(Token $token): void;
+    public function save(Token $token, string $userId): void;
+
+    public function delete(string $tokenClass, string $userId): void;
 }

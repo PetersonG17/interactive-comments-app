@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Repositories;
 
+use App\Infrastructure\AccessToken;
 use App\Infrastructure\Token;
 use \Predis\Client;
 
@@ -14,15 +15,35 @@ class RedisTokenRepository implements TokenRepository {
         $this->client = $client;
     }
 
-    public function find(int $userId): Token 
+    public function find(string $tokenClass, string $userId): Token 
     {
-        $result = $this->client->get("token-" . $userId);
+        $key = $this->makeKey($tokenClass, $userId);
+        $result = $this->client->get($key);
 
         return Token::fromString($result);
     }
 
-    public function save(Token $token): void 
+    public function save(Token $token, string $userId): void 
     {
-         // TODO: Implement this
+        $key = $this->makeKey(get_class($token), $userId);
+        $this->client->set($key, $token->toString());
+    }
+
+    public function delete(string $tokenClass, string $userId): void
+    {
+        $key = $this->makeKey($tokenClass, $userId);
+        $this->client->del($key);
+    }
+
+    private function makeKey(string $tokenClass, string $userId): string
+    {
+        $type = '';
+        if ($tokenClass == AccessToken::class) {
+            $type = 'access_token';
+        } else {
+            $type = 'refresh_token';
+        }
+
+        return $type . "-" . $userId;
     }
 }

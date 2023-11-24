@@ -3,9 +3,8 @@
 namespace App\Infrastructure\Factories;
 
 use App\Domain\User;
-use App\Oauth\Infrastructure\Token;
-use App\Oauth\Infrastructure\TokenType;
+use App\Infrastructure\Token;
 
 interface TokenFactory {
-    public static function make(TokenType $type, User $user): Token;
+    public static function make(string $tokenClass, User $user): Token;
 }

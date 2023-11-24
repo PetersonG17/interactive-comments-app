@@ -7,6 +7,41 @@ info:
 
 paths:
 
+  /api/v1/tokens:
+    post:
+      summary: Create a new access token for a user
+      description: Create a new access token for a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  enum: [password]
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        201:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    enum: [Bearer]
+                  expires_in:
+                    type: integer
+                    description: The number of seconds until the token expires
+                  refresh_token:
+                    type: string
+
   /api/v1/users/{id}:
     get:
       summary: Get a single user by ID

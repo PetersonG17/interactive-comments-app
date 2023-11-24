@@ -4,22 +4,19 @@ namespace App\Infrastructure;
 
 use Carbon\Carbon;
 
-class Token
+abstract class Token
 {
-    private TokenType $type;
     // TODO: make this expires its own unix timestamp class...
     private Carbon $expires; // Unix timestamp that the token expires at
     private Carbon $createdAt;
     private string $encodedJwt;
 
     public function __construct(
-        TokenType $type,
         Carbon $expires,
         Carbon $createdAt,
         string $encodedJwt
     )
     {
-        $this->type = $type;
         $this->expires = $expires;
         $this->createdAt = $createdAt;
         $this->encodedJwt = $encodedJwt;
@@ -35,15 +32,9 @@ class Token
         return $this->encodedJwt;
     }
 
-    public function type(): TokenType
-    {
-        return $this->type;
-    }
-
     public function toArray(): array
     {
         return  [
-            'type' => $this->type->value,
             'expires' => $this->expires->timestamp,
             'created_at' => $this->createdAt->timestamp,
             'encoded_jwt' => $this->encodedJwt
@@ -57,7 +48,6 @@ class Token
 
     public function __unserialize(array $data): void
     {
-        $this->type = TokenType::from($data['type']);
         $this->expires->timestamp = $data['expires'];
         $this->createdAt->timestamp = $data['created_at'];
         $this->encodedJwt = $data['encoded_jwt'];
@@ -68,13 +58,17 @@ class Token
         return json_encode($this->toArray()) ?: "";
     }
 
+    public function toString(): string
+    {
+        return $this->__toString();
+    }
+
     public static function fromString(string $string): Token
     {
         // TODO: Test and throw exception if string cannot be deciphered
         $data = json_decode($string, true);
 
-        return new Token(
-            TokenType::from($data['type']),
+        return new static(
             Carbon::parse($data['expires']),
             Carbon::parse($data['created_at']),
             $data['encoded_jwt']

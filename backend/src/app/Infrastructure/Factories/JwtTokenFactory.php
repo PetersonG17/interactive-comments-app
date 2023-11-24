@@ -5,8 +5,9 @@ namespace App\Infrastructure\Factories;
 use Firebase\JWT\JWT;
 use App\Infrastructure\Exceptions\UndefinedTokenTypeException;
 use App\Domain\User;
-use App\Oauth\Infrastructure\Token;
-use App\Oauth\Infrastructure\TokenType;
+use App\Infrastructure\Token;
+use App\Infrastructure\AccessToken;
+use App\Infrastructure\RefreshToken;
 use Carbon\Carbon;
 
 class JwtTokenFactory implements TokenFactory
@@ -15,14 +16,14 @@ class JwtTokenFactory implements TokenFactory
     private const KEY = 'r,)QP-tmZ2E$)rB';
     private const HASHING_ALGORITHM = 'HS256';
 
-    private static TokenType $type;
     private static User $user;
     private static array $payload = [];
     private static string $jwt;
+    private static string $tokenClass;
 
-    public static function make(TokenType $type, User $user): Token
+    public static function make(string $tokenClass, User $user): Token
     {
-        self::$type = $type;
+        self::$tokenClass = $tokenClass;
         self::$user = $user;
 
         self::createPayload();
@@ -47,13 +48,13 @@ class JwtTokenFactory implements TokenFactory
 
     private static function calculateExpirationTime(): int
     {
-        if(self::$type == TokenType::ACCESS) {
+        if(self::$tokenClass == AccessToken::class) {
             return Carbon::now()->addHours(24)->timestamp;
-        } else if (self::$type == TokenType::REFRESH) {
+        } else if (self::$tokenClass == RefreshToken::class) {
             return Carbon::now()->addDays(30)->timestamp;
         }
 
-        throw new UndefinedTokenTypeException("Unable to create token. Token type of: " .  self::$type . " is undefined.");
+        throw new UndefinedTokenTypeException("Unable to create token. Token type of: " .  self::$tokenClass . " is undefined.");
     }
 
     private static function encodeJwtPayload(): void
@@ -63,6 +64,11 @@ class JwtTokenFactory implements TokenFactory
 
     private static function createToken(): Token
     {
-        return new Token(self::$type, self::$payload['exp'], Carbon::now(), self::$jwt);
+        if (self::$tokenClass == AccessToken::class) {
+            return new AccessToken(self::$payload['exp'], Carbon::now(), self::$jwt);
+        } else if (self::$tokenClass == RefreshToken::class) {
+            return new RefreshToken(self::$payload['exp'], Carbon::now(), self::$jwt);
+        }
+        return new Token(self::$payload['exp'], Carbon::now(), self::$jwt);
     }
 }
