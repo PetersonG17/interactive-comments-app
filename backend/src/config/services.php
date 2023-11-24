@@ -7,7 +7,7 @@ use App\Infrastructure\Factories\TokenFactory;
 use App\Infrastructure\Repositories\RedisTokenRepository;
 use App\Domain\Services\HashingService;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use App\Domain\UserRepository;
+use App\Domain\Interfaces\UserRepository;
 use App\Infrastructure\Queries\Users\GetMultipleUsersQuery;
 use App\Infrastructure\Queries\Users\GetSingleUserQuery;
 use App\Infrastructure\Services\Md5HashingService;

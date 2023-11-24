@@ -8,10 +8,16 @@ info:
 paths:
 
   /api/v1/users/{id}:
-
     get:
       summary: Get a single user by ID
       description: Get a single user by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The user ID
+          schema:
+            type: string
       responses:
         200:
           description: Success
@@ -21,7 +27,7 @@ paths:
                 type: object
                 properties:
                   id:
-                    type: integer
+                    type: string
                   email:
                     type: string
                   first_name:
@@ -30,7 +36,6 @@ paths:
                     type: string
 
   /api/v1/users:
-
     get:
       summary: Get multiple users by ID
       description: Get multiple users by ID
@@ -45,12 +50,48 @@ paths:
                   type: object
                   properties:
                     id:
-                      type: integer
+                      type: string
                     email:
                       type: string
                     first_name:
                       type: string
                     last_name:
+                      type: string
+    post:
+      summary: Create a new user
+      description: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+      responses:
+        201:
+          description: Success
+          headers:
+            Location:
+              description: The location of the created user
+              schema:
+                type: string
+                example: http://localhost:3000/api/v1/users/dienvi38d9-38n9d3-dhfnodje
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    message:
                       type: string
 
 
