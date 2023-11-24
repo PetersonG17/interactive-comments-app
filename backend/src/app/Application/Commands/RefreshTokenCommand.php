@@ -6,6 +6,5 @@ class RefreshTokenCommand
         public readonly string $refreshToken
     )
     {
-        
     }
 }

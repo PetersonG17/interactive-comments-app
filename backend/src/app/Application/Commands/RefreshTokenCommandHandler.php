@@ -8,7 +8,7 @@ use App\Domain\Services\HashingService;
 use App\Infrastructure\AccessToken;
 use App\Infrastructure\Repositories\TokenRepository;
 
-class CreateTokenCommandHandler
+class RefreshTokenCommandHandler
 {
     private UserRepository $repo;
     private TokenFactory $factory;

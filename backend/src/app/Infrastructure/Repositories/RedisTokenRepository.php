@@ -6,6 +6,7 @@ use App\Infrastructure\AccessToken;
 use App\Infrastructure\Token;
 use \Predis\Client;
 
+// TODO: Delete this in favor of the postgres one
 class RedisTokenRepository implements TokenRepository {
 
     private Client $client;

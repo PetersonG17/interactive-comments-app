@@ -8,14 +8,15 @@ use App\Application\V1\Enums\GrantType;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use GuzzleHttp\Psr7\Response;
+use RefreshTokenCommand;
 
 class PostTokenAction
 {
-    private CreateTokenCommandHandler $handler;
+    private CreateTokenCommandHandler $createTokenHandler;
 
-    public function __construct(CreateTokenCommandHandler $handler)
+    public function __construct(CreateTokenCommandHandler $createTokenHandler)
     {
-        $this->handler = $handler;
+        $this->createTokenHandler = $createTokenHandler;
     }
 
     public function __invoke(Request $request, ResponseInterface $response, array $args)
@@ -39,9 +40,10 @@ class PostTokenAction
         // If password grant type create new access token
         if ($body->grant_type === GrantType::Password->value) {
             $command = new CreateTokenCommand($body->email, $body->password);
-            $this->handler->handle($command);
+            $this->createTokenHandler->handle($command);
         } else { // Refresh grant type, refresh the access token
-
+            $command = new RefreshTokenCommand($body->refresh_token);
+            $this->refreshTokenHandler->handle($command);
         }
 
 

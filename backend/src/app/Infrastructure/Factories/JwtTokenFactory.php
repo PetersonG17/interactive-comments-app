@@ -66,9 +66,8 @@ class JwtTokenFactory implements TokenFactory
     {
         if (self::$tokenClass == AccessToken::class) {
             return new AccessToken(self::$payload['exp'], Carbon::now(), self::$jwt);
-        } else if (self::$tokenClass == RefreshToken::class) {
+        } else { // Refresh Token
             return new RefreshToken(self::$payload['exp'], Carbon::now(), self::$jwt);
         }
-        return new Token(self::$payload['exp'], Carbon::now(), self::$jwt);
     }
 }
