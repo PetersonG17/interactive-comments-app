@@ -32,7 +32,7 @@ services:
       ports:
           - "8080:80"
       volumes:
-          - ./backend/src/public:/var/www/app/public
+          - ./backend/public:/var/www/app/public
           - ./backend/.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
       depends_on:
           - php
@@ -74,7 +74,7 @@ services:
       depends_on:
           - postgres
       volumes:
-          - ./backend/src:/var/www/app
+          - ./backend:/var/www/app
           - ./database/migrations/sql:/flyway/sql
       expose:
           - 9000
