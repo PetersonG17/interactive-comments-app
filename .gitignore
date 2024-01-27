@@ -21,5 +21,6 @@ frontend/.eslintcache
 frontend/.node_repl_history
 frontend/*.tgz
 frontend/.yarn-integrity
+vendor
 
 .npmrc

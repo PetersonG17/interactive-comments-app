@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS "tokens" (
             REFERENCES users(id),
     CONSTRAINT fk_token_type
         FOREIGN KEY(type_id)
-            REFERENCES token_types(id),
+            REFERENCES token_types(id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_tokens_token ON tokens(token);

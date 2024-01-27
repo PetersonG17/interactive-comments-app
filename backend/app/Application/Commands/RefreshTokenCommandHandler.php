@@ -2,6 +2,8 @@
 
 namespace App\Application\Commands;
 
+use App\Infrastructure\RefreshToken;
+use App\Application\Commands\CreateTokenCommand;
 use App\Infrastructure\Factories\TokenFactory;
 use App\Domain\Interfaces\UserRepository;
 use App\Domain\Services\HashingService;

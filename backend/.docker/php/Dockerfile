@@ -27,7 +27,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 WORKDIR /var/www/app/
 
 # Copy the source code
-COPY ./backend/src .
+COPY ./backend .
 
 RUN composer install
 

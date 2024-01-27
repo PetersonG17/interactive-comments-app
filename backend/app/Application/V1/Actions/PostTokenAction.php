@@ -4,6 +4,7 @@ namespace App\Application\V1\Actions;
 
 use App\Application\Commands\CreateTokenCommand;
 use App\Application\Commands\CreateTokenCommandHandler;
+use App\Application\Commands\RefreshTokenCommandHandler;
 use App\Application\V1\Enums\GrantType;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -13,10 +14,12 @@ use RefreshTokenCommand;
 class PostTokenAction
 {
     private CreateTokenCommandHandler $createTokenHandler;
+    private RefreshTokenCommandHandler $refreshTokenHandler;
 
-    public function __construct(CreateTokenCommandHandler $createTokenHandler)
+    public function __construct(CreateTokenCommandHandler $createTokenHandler, RefreshTokenCommandHandler $refreshTokenHandler)
     {
         $this->createTokenHandler = $createTokenHandler;
+        $this->refreshTokenHandler = $refreshTokenHandler;
     }
 
     public function __invoke(Request $request, ResponseInterface $response, array $args)
