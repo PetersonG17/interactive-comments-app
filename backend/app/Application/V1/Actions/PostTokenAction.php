@@ -2,24 +2,25 @@
 
 namespace App\Application\V1\Actions;
 
-use App\Application\Commands\CreateTokenCommand;
-use App\Application\Commands\CreateTokenCommandHandler;
-use App\Application\Commands\RefreshTokenCommandHandler;
 use App\Application\V1\Enums\GrantType;
+use App\Domain\Interfaces\UserRepository;
+use App\Infrastructure\Exceptions\NotFoundException as ExceptionsNotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use GuzzleHttp\Psr7\Response;
-use RefreshTokenCommand;
+use JohnPetersonG17\OAuthTokenManagement\AuthorizationGate;
+use JohnPetersonG17\OAuthTokenManagement\Exceptions\TokenExpiredException;
+use JohnPetersonG17\OAuthTokenManagement\Exceptions\NotFoundException;
 
 class PostTokenAction
 {
-    private CreateTokenCommandHandler $createTokenHandler;
-    private RefreshTokenCommandHandler $refreshTokenHandler;
+    private AuthorizationGate $gate;
+    private UserRepository $userRepository;
 
-    public function __construct(CreateTokenCommandHandler $createTokenHandler, RefreshTokenCommandHandler $refreshTokenHandler)
+    public function __construct(AuthorizationGate $gate, UserRepository $userRepository)
     {
-        $this->createTokenHandler = $createTokenHandler;
-        $this->refreshTokenHandler = $refreshTokenHandler;
+        $this->gate = $gate;
+        $this->userRepository = $userRepository;
     }
 
     public function __invoke(Request $request, ResponseInterface $response, array $args)
@@ -40,15 +41,39 @@ class PostTokenAction
             return new Response(400, ['Content-Type' => 'application/json'], json_encode(['message' => 'Invalid grant_type. Valid values: password, refresh_token.']));
         }
 
+        // TODO: Move this into a separate command class
         // If password grant type create new access token
         if ($body->grant_type === GrantType::Password->value) {
-            $command = new CreateTokenCommand($body->email, $body->password);
-            $this->createTokenHandler->handle($command);
-        } else { // Refresh grant type, refresh the access token
-            $command = new RefreshTokenCommand($body->refresh_token);
-            $this->refreshTokenHandler->handle($command);
-        }
 
+            // Authenticate the user
+            try {
+                $user = $this->userRepository->findByCredentials($body->email, $body->password);
+            } catch (NotFoundException $e) {
+                return new Response(401, ['Content-Type' => 'application/json'], json_encode(['message' => 'The provided credentials are invalid.']));
+            } catch (\Exception $e) {
+                return new Response(500, ['Content-Type' => 'application/json'], json_encode(['message' => 'An unknown error occurred. Please contact your system adminstrator.']));
+            }
+
+            // Grant the user a token
+            try {
+                $grant = $this->gate->grant($user->id());
+            } catch (\Exception $e) {
+                return new Response(500, ['Content-Type' => 'application/json'], json_encode(['message' => 'An unknown error occurred. Please contact your system adminstrator.']));
+            }
+
+        } else { // Refresh grant type, refresh the access token
+
+            try {
+                $grant = $this->gate->refresh($body->refresh_token);
+            } catch (TokenExpiredException $e) {
+                return new Response(401, ['Content-Type' => 'application/json'], json_encode(['message' => 'The refresh token provided is expired. Please login again.']));
+            } catch (NotFoundException $e) {
+                return new Response(401, ['Content-Type' => 'application/json'], json_encode(['message' => 'The refresh token provided could not be found. Please login again.']));
+            } catch (\Exception $e) {
+                return new Response(500, ['Content-Type' => 'application/json'], json_encode(['message' => 'An unknown error occurred. Please contact your system adminstrator.']));
+            }
+
+        }
 
 
         // Construct response body
@@ -56,10 +81,10 @@ class PostTokenAction
         // https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/
         $body = json_encode(
             [
-                "access_token" => "mF_9.B5f-4.1JqM",
-                "token_type" => "Bearer",
-                "expires_in" => 3600,
-                "refresh_token" => "tGzv3JOkF0XG5Qx2TlKWIA"
+                "access_token" => $grant->accessToken(),
+                "token_type" => $grant->tokenType(),
+                "expires_in" => $grant->expiresIn(),
+                "refresh_token" => $grant->refreshToken(),
             ]
         );
 

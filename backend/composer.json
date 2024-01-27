@@ -12,7 +12,8 @@
         "firebase/php-jwt": "^6.3",
         "predis/predis": "^2.0",
         "fakerphp/faker": "^1.23",
-        "ramsey/uuid": "^4.7"
+        "ramsey/uuid": "^4.7",
+        "john-peterson-g17/oauth-token-management": "^1.0"
     },
     "autoload": {
         "files": ["ConfigLoader.php"],
