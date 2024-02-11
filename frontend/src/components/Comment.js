@@ -16,7 +16,7 @@ function Comment() {
             <div>
                 {/* Comment Info */}
                 <div className={styles['comment-info']}>
-                    <img className={styles['profile-pic']} src={profile_pic}/>
+                    <img className={styles['profile-pic']} src={profile_pic} alt="User Profile"/>
                     <div>Amy Robson</div>
                     <div>1 month ago</div>
                 </div>
