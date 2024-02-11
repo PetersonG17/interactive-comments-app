@@ -85,7 +85,7 @@ services:
       platform: linux/amd64
       container_name: redis
       image: redis:7.0
-      command: redis-server --requirepass ${REDIS_PASSWORD}
+      command: redis-server
       ports:
         - 6379:6379
       volumes:

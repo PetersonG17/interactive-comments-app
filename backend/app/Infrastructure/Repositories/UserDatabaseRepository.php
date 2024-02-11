@@ -6,6 +6,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use App\Domain\User;
 use App\Domain\Interfaces\UserRepository;
 use App\Domain\ValueObjects\HashedPassword;
+use App\Infrastructure\Exceptions\NotFoundException;
 use Illuminate\Support\Collection;
 
 class UserDatabaseRepository implements UserRepository
@@ -26,9 +27,13 @@ class UserDatabaseRepository implements UserRepository
             ->select('*')
             ->where('email', $email)
             ->where('password', $hashedPassword->value())
-            ->get();
+            ->first();
 
-        return $this->hydrate($record);
+        if(!isset($record)) {
+            throw new NotFoundException("User not found for given credentials.");
+        }
+
+        return $this->hydrate((array) $record);
     }
 
     public function find(string $id): User
@@ -56,14 +61,14 @@ class UserDatabaseRepository implements UserRepository
             );
     }
 
-    private function hydrate(array|Collection $record): User
+    private function hydrate(array $record): User
     {
         return new User(
-            $record[0]->id,
-            $record[0]->email,
-            $record[0]->first_name,
-            $record[0]->last_name,
-            new HashedPassword($record[0]->password)
+            $record["id"],
+            $record["email"],
+            $record["first_name"],
+            $record["last_name"],
+            new HashedPassword($record["password"])
         );
     }
 }

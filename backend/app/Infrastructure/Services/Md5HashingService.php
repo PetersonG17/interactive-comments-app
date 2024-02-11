@@ -11,6 +11,6 @@ class Md5HashingService implements HashingService
 
     public static function hash(string $password): HashedPassword
     {
-        return new HashedPassword(password_hash(self::SALT . $password, PASSWORD_DEFAULT));
+        return new HashedPassword(md5(self::SALT . $password));
     }
 }

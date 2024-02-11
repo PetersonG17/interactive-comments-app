@@ -4,13 +4,15 @@ namespace App\Application\V1\Actions;
 
 use App\Application\V1\Enums\GrantType;
 use App\Domain\Interfaces\UserRepository;
-use App\Infrastructure\Exceptions\NotFoundException as ExceptionsNotFoundException;
+use App\Domain\ValueObjects\HashedPassword;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use GuzzleHttp\Psr7\Response;
 use JohnPetersonG17\OAuthTokenManagement\AuthorizationGate;
 use JohnPetersonG17\OAuthTokenManagement\Exceptions\TokenExpiredException;
 use JohnPetersonG17\OAuthTokenManagement\Exceptions\NotFoundException;
+use App\Infrastructure\Exceptions\NotFoundException as InfrastructureNotFoundException;
+use App\Infrastructure\Services\Md5HashingService;
 
 class PostTokenAction
 {
@@ -25,13 +27,10 @@ class PostTokenAction
 
     public function __invoke(Request $request, ResponseInterface $response, array $args)
     {
-        // TODO: Add Validation
-        // client_id, & client_secret
-
-        $body = $request->getBody();
+        $body = json_decode($request->getBody());
 
         // Simple validation
-        if (!isset($body->email) || !isset($body->password) || !isset($body->grant_type)) {
+        if (!isset($body->email) && !isset($body->password) && !isset($body->grant_type)) {
             return new Response(400, ['Content-Type' => 'application/json'], json_encode(['message' => 'Invalid request body. Required Fields: email, password, grant_type.']));
         }
 
@@ -47,10 +46,12 @@ class PostTokenAction
 
             // Authenticate the user
             try {
-                $user = $this->userRepository->findByCredentials($body->email, $body->password);
-            } catch (NotFoundException $e) {
+                $hashedPassword = Md5HashingService::hash($body->password);
+                $user = $this->userRepository->findByCredentials($body->email, $hashedPassword);
+            } catch (InfrastructureNotFoundException $e) {
                 return new Response(401, ['Content-Type' => 'application/json'], json_encode(['message' => 'The provided credentials are invalid.']));
             } catch (\Exception $e) {
+                dd($e);
                 return new Response(500, ['Content-Type' => 'application/json'], json_encode(['message' => 'An unknown error occurred. Please contact your system adminstrator.']));
             }
 
@@ -58,6 +59,7 @@ class PostTokenAction
             try {
                 $grant = $this->gate->grant($user->id());
             } catch (\Exception $e) {
+                dd($e);
                 return new Response(500, ['Content-Type' => 'application/json'], json_encode(['message' => 'An unknown error occurred. Please contact your system adminstrator.']));
             }
 
